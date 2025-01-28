@@ -1,9 +1,8 @@
 package com.ninos.notification;
 
 import com.ninos.common.BaseEntity;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
+import com.ninos.user.User;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,5 +24,8 @@ public class Notification extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private NotificationStatus status;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
 }
