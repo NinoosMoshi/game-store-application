@@ -31,6 +31,8 @@ public class Game extends BaseEntity {
     private Category category;
 
     @OneToMany(mappedBy = "game")
+//    @OrderBy(value = "content DESC")   // when we get a game we will get a sorted comment desc always
+    @OrderBy(value = "content")   // when we get a game we will get a sorted comment asc always
     private List<Comment> comments;
 
 
