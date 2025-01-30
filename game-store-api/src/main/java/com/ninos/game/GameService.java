@@ -1,9 +1,12 @@
 package com.ninos.game;
 
+import ch.qos.logback.core.util.StringUtil;
 import com.ninos.common.PageResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Optional;
@@ -70,6 +73,44 @@ public class GameService {
         Game game = new Game();
         game.setTitle("roblox");
 
+    }
+
+
+    public void specificationExample1() {
+        Specification<Game> spec = buildSpecificationWithAndOperator("roblox", SupportedPlatforms.PS);
+        List<Game> games = gameRepository.findAll(spec);
+    }
+
+    public void specificationExample2() {
+        Specification<Game> spec = buildSpecificationWithOrOperator("roblox", SupportedPlatforms.PS);
+        List<Game> games = gameRepository.findAll(spec);
+    }
+
+    private Specification<Game> buildSpecificationWithAndOperator(String title, SupportedPlatforms platform) {
+        Specification<Game> spec = Specification.where(null);
+
+        if(StringUtils.hasLength("title")) {
+            spec = spec.and(GameSpecifications.byGameTitle(title));
+        }
+        if(platform != null) {
+            spec = spec.and(GameSpecifications.bySupportedPlatforms(platform));
+        }
+
+        return spec;
+    }
+
+
+    private Specification<Game> buildSpecificationWithOrOperator(String title, SupportedPlatforms platform) {
+        Specification<Game> spec = Specification.where(null);
+
+        if(StringUtils.hasLength("title")) {
+            spec = spec.and(GameSpecifications.byGameTitle(title));
+        }
+        if(platform != null) {
+            spec = spec.or(GameSpecifications.bySupportedPlatforms(platform));
+        }
+
+        return spec;
     }
 
 
