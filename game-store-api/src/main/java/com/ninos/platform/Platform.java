@@ -1,14 +1,15 @@
-package com.ninos.category;
+package com.ninos.platform;
 
 import com.ninos.common.BaseEntity;
 import com.ninos.game.Game;
 import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.ManyToMany;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.experimental.SuperBuilder;
 
 import java.util.List;
 
@@ -16,15 +17,13 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@SuperBuilder
 @Entity
-public class Category extends BaseEntity {
+public class Platform extends BaseEntity {
 
-    private String name;
-    private String description;
+    @Enumerated(EnumType.STRING)
+    private Console console;
 
-    @OneToMany(mappedBy = "category")
+    @ManyToMany(mappedBy = "platforms")
     private List<Game> games;
-
 
 }

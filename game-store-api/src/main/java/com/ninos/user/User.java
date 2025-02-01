@@ -1,7 +1,7 @@
 package com.ninos.user;
 
 import com.ninos.common.BaseEntity;
-import com.ninos.gamerequest.GameRequest;
+import com.ninos.gamerequest.GameRequestEntity;
 import com.ninos.notification.Notification;
 import com.ninos.wishlist.WishList;
 import jakarta.persistence.Entity;
@@ -36,6 +36,6 @@ public class User extends BaseEntity {
     private List<Notification> notifications;
 
     @OneToMany(mappedBy = "user")
-    private List<GameRequest> gameRequests;
+    private List<GameRequestEntity> gameRequests;
 
 }
