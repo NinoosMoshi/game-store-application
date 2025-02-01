@@ -13,4 +13,20 @@ public class GameMapper {
                 .build();
     }
 
+    /*
+      public Game toGame(GameRequest gameRequest) {
+        Game game = new Game();
+        BeanUtils.copyProperties(gameRequest, game);
+
+        // Set the category if categoryId is provided
+        if (gameRequest.categoryId() != null) {
+            Category category = new Category();
+            category.setId(gameRequest.categoryId());
+            game.setCategory(category);
+        }
+
+        return game;
+    }
+    * */
+
 }

@@ -11,7 +11,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.LocaleResolver;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -27,6 +26,7 @@ public class GameService {
 
     public String saveGame(final GameRequest gameRequest){
 
+        // Check for Duplicate Game Title
         if(gameRepository.existsByTitle(gameRequest.title())){
             log.info("Game already exists: {}", gameRequest.title());
             // todo create a dedicated exception
@@ -34,13 +34,16 @@ public class GameService {
         }
 
 
+        // Validate Platforms
         final List<Console> selectedConsoles = gameRequest.platforms()
                 .stream()
                 .map(Console::valueOf) // .map(p -> Console.valueOf(p))
                 .toList();
 
+        // fetch platforms that match the provided console list
         final List<Platform> platforms = platformRepository.findAllByConsoleIn(selectedConsoles);
 
+        // checks if all requested platforms exist in the database
         if (platforms.size() != selectedConsoles.size()) {
             log.warn("Received a non supported platforms. Received: {} - Stored: {}",selectedConsoles, platforms);
             // todo create a dedicated exception
@@ -54,6 +57,8 @@ public class GameService {
         }
 
         final Game game = gameMapper.toGame(gameRequest);
+
+        // The retrieved platform list is assigned to the game entity.
         game.setPlatforms(platforms);
         final Game savedGame = gameRepository.save(game);
         // todo do we need to assign the game to the selectedPlatforms!?
